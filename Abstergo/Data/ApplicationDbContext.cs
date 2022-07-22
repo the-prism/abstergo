@@ -21,6 +21,11 @@ namespace Abstergo.Data
             //    .HasOne(b => b.Folder)
             //    .WithOne(i => i.Folder)
             //    .HasForeignKey<Folder>(b => b.Id);
+
+            //modelBuilder.Entity<Favorite>()
+            //    .HasOne(p => p.Parent)
+            //    .WithOne(b => b.Parent)
+            //    .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

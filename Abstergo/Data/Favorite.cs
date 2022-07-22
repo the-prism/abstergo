@@ -1,15 +1,27 @@
-﻿namespace Abstergo.Data
+﻿using System.Runtime.Serialization;
+using System.ComponentModel.DataAnnotations;
+
+namespace Abstergo.Data
 {
     public class Favorite
     {
-        public int Id { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string Url { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool IsFolder { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        [DataMember] 
+        public int Id { get; set; }
 
+        [Required]
+        [DataMember]
+        public string Name { get; set; } = string.Empty;
 
-        public Favorite Parent { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        [Required]
+        [DataMember]
+        public string Url { get; set; } = string.Empty;
 
-        public List<Favorite> FolderContents => throw new NotImplementedException();
+        [DataMember]
+        public bool IsFolder { get; set; }
+
+        [DataMember(IsRequired = false)]
+        public int? ParentId { get; set; } = null;
+
+        public List<Favorite> FolderContents { get; set; } = new List<Favorite>();
     }
 }

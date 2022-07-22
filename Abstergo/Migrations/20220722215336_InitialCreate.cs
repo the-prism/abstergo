@@ -12,28 +12,28 @@ namespace Abstergo.Migrations
                 name: "Links",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsFolder = table.Column<bool>(type: "bit", nullable: false),
-                    ParentId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Url = table.Column<string>(type: "TEXT", nullable: false),
+                    IsFolder = table.Column<bool>(type: "INTEGER", nullable: false),
+                    ParentId = table.Column<int>(type: "INTEGER", nullable: true),
+                    FavoriteId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Links", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Links_Links_ParentId",
-                        column: x => x.ParentId,
+                        name: "FK_Links_Links_FavoriteId",
+                        column: x => x.FavoriteId,
                         principalTable: "Links",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Links_ParentId",
+                name: "IX_Links_FavoriteId",
                 table: "Links",
-                column: "ParentId");
+                column: "FavoriteId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
