@@ -10,6 +10,8 @@ namespace Abstergo.Data
 
         public DbSet<Favorite> Links => Set<Favorite>();
 
+        public DbSet<Link> FavoriteLinks => Set<Link>();
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -22,10 +24,10 @@ namespace Abstergo.Data
             //    .WithOne(i => i.Folder)
             //    .HasForeignKey<Folder>(b => b.Id);
 
-            //modelBuilder.Entity<Favorite>()
-            //    .HasOne(p => p.Parent)
-            //    .WithOne(b => b.Parent)
-            //    .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Link>()
+                .HasOne(p => p.Favorite)
+                .WithMany(b => b.Links)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

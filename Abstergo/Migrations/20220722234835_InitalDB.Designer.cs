@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Abstergo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220722215336_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220722234835_InitalDB")]
+    partial class InitalDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,9 +23,6 @@ namespace Abstergo.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("FavoriteId")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsFolder")
@@ -44,21 +41,45 @@ namespace Abstergo.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FavoriteId");
-
                     b.ToTable("Links");
                 });
 
-            modelBuilder.Entity("Abstergo.Data.Favorite", b =>
+            modelBuilder.Entity("Abstergo.Data.Link", b =>
                 {
-                    b.HasOne("Abstergo.Data.Favorite", null)
-                        .WithMany("FolderContents")
-                        .HasForeignKey("FavoriteId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ChildId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("FavoriteId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ParentId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FavoriteId");
+
+                    b.ToTable("FavoriteLinks");
+                });
+
+            modelBuilder.Entity("Abstergo.Data.Link", b =>
+                {
+                    b.HasOne("Abstergo.Data.Favorite", "Favorite")
+                        .WithMany("Links")
+                        .HasForeignKey("FavoriteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Favorite");
                 });
 
             modelBuilder.Entity("Abstergo.Data.Favorite", b =>
                 {
-                    b.Navigation("FolderContents");
+                    b.Navigation("Links");
                 });
 #pragma warning restore 612, 618
         }

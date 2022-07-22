@@ -22,6 +22,6 @@ namespace Abstergo.Data
         [DataMember(IsRequired = false)]
         public int? ParentId { get; set; } = null;
 
-        public List<Favorite> FolderContents { get; set; } = new List<Favorite>();
+        public List<Link> Links { get; set; } = new List<Link>();
     }
 }

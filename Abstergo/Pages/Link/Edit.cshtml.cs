@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Abstergo.Data;
+using Links = Abstergo.Data.Link;
 
 namespace Abstergo.Pages.Link
 {
@@ -29,7 +30,13 @@ namespace Abstergo.Pages.Link
                 return NotFound();
             }
 
-            var favorite =  await _context.Links.FirstOrDefaultAsync(m => m.Id == id);
+            var favorite = await _context.Links.FirstOrDefaultAsync(m => m.Id == id);
+
+            if (favorite is not null)
+            {
+                favorite.Links = await _context.FavoriteLinks.Where((Links f) => f.FavoriteId == id).ToListAsync();
+            }
+
             if (favorite == null)
             {
                 return NotFound();
@@ -70,7 +77,7 @@ namespace Abstergo.Pages.Link
 
         private bool FavoriteExists(int id)
         {
-          return (_context.Links?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Links?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

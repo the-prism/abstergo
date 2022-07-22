@@ -34,6 +34,14 @@
                 <span asp-validation-for="Favorite.ParentId" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <select name="Content" id="Content" multiple>
+                    @foreach (var item in Model.Links)
+                    {
+                        <option value="@item">@item</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -45,5 +53,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
