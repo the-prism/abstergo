@@ -258,6 +258,8 @@ ServiceFabricBackup/
 
 #SQLite DB
 *.sqlite
+*.sqlite-shm
+*.sqlite-wal
 
 # Business Intelligence projects
 *.rdl.data
