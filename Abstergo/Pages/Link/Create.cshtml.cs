@@ -1,71 +1,108 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Abstergo.Data;
-using Microsoft.EntityFrameworkCore;
-using Links = Abstergo.Data.Link;
-using Microsoft.Extensions.Primitives;
+﻿// <copyright file="Create.cshtml.cs" company="the-prism">
+// Copyright (c) the-prism. All rights reserved.
+// </copyright>
 
 namespace Abstergo.Pages.Link
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Abstergo.Data;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Primitives;
+    using Links = Abstergo.Data.Link;
+
+    /// <summary>
+    /// Link creation view model page
+    /// </summary>
     public class CreateModel : PageModel
     {
-        private readonly Abstergo.Data.ApplicationDbContext _context;
+        private readonly Abstergo.Data.ApplicationDbContext context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CreateModel"/> class.
+        /// </summary>
+        /// <param name="context"></param>
         public CreateModel(Abstergo.Data.ApplicationDbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
-        public async Task<IActionResult> OnGetAsync()
-        {
-            if (_context.Links != null)
-            {
-                Favorites = await _context.Links.ToListAsync();
-            }
-
-            foreach (var entry in Favorites)
-            {
-                Links.Add(entry.Id);
-            }
-
-            return Page();
-        }
-
+        /// <summary>
+        /// New favortie to be created
+        /// </summary>
         [BindProperty]
         public Favorite Favorite { get; set; } = default!;
 
+        /// <summary>
+        /// List of all the existing favorites
+        /// </summary>
         public IList<Favorite> Favorites { get; set; } = default!;
 
+        /// <summary>
+        /// List of the existing favorites id for display
+        /// </summary>
         public List<int> Links { get; set; } = new List<int>();
 
-
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+        /// <summary>
+        /// On display of the creation page
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task<IActionResult> OnGetAsync()
         {
-            if (!ModelState.IsValid || _context.Links == null || Favorite == null)
+            if (this.context.Links != null)
             {
-                return Page();
+                this.Favorites = await this.context.Links.ToListAsync();
             }
 
-            Favorites = await _context.Links.ToListAsync();
+            foreach (var entry in this.Favorites)
+            {
+                this.Links.Add(entry.Id);
+            }
 
-            _context.Links.Add(Favorite);
-            await _context.SaveChangesAsync();
-
-            var folderContent = Request.Form["Content"];
-            var newFav = PrepareFolderContents(Favorite, folderContent);
-            _context.Attach(newFav).State = EntityState.Modified;
-
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
+            return this.Page();
         }
 
+        /// <summary>
+        /// On form submit
+        /// To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!this.ModelState.IsValid || this.context.Links == null || this.Favorite == null)
+            {
+                return this.Page();
+            }
+
+            // Get the existing favorites
+            this.Favorites = await this.context.Links.ToListAsync();
+
+            // Create the new one
+            this.context.Links.Add(this.Favorite);
+            await this.context.SaveChangesAsync();
+
+            // Get the list of child and add them to the newley created folder
+            var folderContent = this.Request.Form["Content"];
+            var newFav = this.PrepareFolderContents(this.Favorite, folderContent);
+            this.context.Attach(newFav).State = EntityState.Modified;
+
+            await this.context.SaveChangesAsync();
+
+            return this.RedirectToPage("./Index");
+        }
+
+        /// <summary>
+        /// Prepare the links for a favorite item
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="contents"></param>
+        /// <returns>The updated favorite with links</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         private Favorite PrepareFolderContents(Favorite item, StringValues contents)
         {
             if (item is null)

@@ -1,11 +1,23 @@
-using Abstergo.Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+// <copyright file="Program.cs" company="the-prism">
+// Copyright (c) the-prism. All rights reserved.
+// </copyright>
 
 namespace Abstergo
 {
+    using Abstergo.Data;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
+
+    /// <summary>
+    /// App entry point
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// App entry point
+        /// </summary>
+        /// <param name="args"></param>
+        /// <exception cref="InvalidOperationException"></exception>
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +28,7 @@ namespace Abstergo
                 options.UseSqlite(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            // builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
             //    .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddRazorPages();
 
@@ -30,6 +42,7 @@ namespace Abstergo
             else
             {
                 app.UseExceptionHandler("/Error");
+
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }

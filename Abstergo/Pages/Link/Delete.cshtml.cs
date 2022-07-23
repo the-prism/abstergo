@@ -1,62 +1,88 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using Abstergo.Data;
+﻿// <copyright file="Delete.cshtml.cs" company="the-prism">
+// Copyright (c) the-prism. All rights reserved.
+// </copyright>
 
 namespace Abstergo.Pages.Link
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Abstergo.Data;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.EntityFrameworkCore;
+
+    /// <summary>
+    /// Data model for the delete page of link
+    /// </summary>
     public class DeleteModel : PageModel
     {
-        private readonly Abstergo.Data.ApplicationDbContext _context;
+        private readonly Abstergo.Data.ApplicationDbContext context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DeleteModel"/> class.
+        /// </summary>
+        /// <param name="context"></param>
         public DeleteModel(Abstergo.Data.ApplicationDbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
+        /// <summary>
+        /// Favorite to delete
+        /// </summary>
         [BindProperty]
-      public Favorite Favorite { get; set; } = default!;
+        public Favorite Favorite { get; set; } = default!;
 
+        /// <summary>
+        /// On GET request of the delete page
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Links == null)
+            if (id == null || this.context.Links == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var favorite = await _context.Links.FirstOrDefaultAsync(m => m.Id == id);
+            var favorite = await this.context.Links.Include(f => f.Links).FirstOrDefaultAsync(m => m.Id == id);
 
             if (favorite == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            else 
+            else
             {
-                Favorite = favorite;
+                this.Favorite = favorite;
             }
-            return Page();
+
+            return this.Page();
         }
 
+        /// <summary>
+        /// On delete POST request
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null || _context.Links == null)
+            if (id == null || this.context.Links == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            var favorite = await _context.Links.FindAsync(id);
+
+            var favorite = await this.context.Links.Include(f => f.Links).FirstOrDefaultAsync(m => m.Id == id);
 
             if (favorite != null)
             {
-                Favorite = favorite;
-                _context.Links.Remove(Favorite);
-                await _context.SaveChangesAsync();
+                this.Favorite = favorite;
+                this.context.Links.Remove(this.Favorite);
+                await this.context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return this.RedirectToPage("./Index");
         }
     }
 }

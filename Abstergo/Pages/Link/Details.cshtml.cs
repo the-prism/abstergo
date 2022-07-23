@@ -1,44 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using Abstergo.Data;
-using Links = Abstergo.Data.Link;
+﻿// <copyright file="Details.cshtml.cs" company="the-prism">
+// Copyright (c) the-prism. All rights reserved.
+// </copyright>
 
 namespace Abstergo.Pages.Link
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Abstergo.Data;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.EntityFrameworkCore;
+    using Links = Abstergo.Data.Link;
+
+    /// <summary>
+    /// Display a link details
+    /// </summary>
     public class DetailsModel : PageModel
     {
-        private readonly Abstergo.Data.ApplicationDbContext _context;
+        private readonly Abstergo.Data.ApplicationDbContext context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DetailsModel"/> class.
+        /// </summary>
+        /// <param name="context"></param>
         public DetailsModel(Abstergo.Data.ApplicationDbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
-      public Favorite Favorite { get; set; } = default!; 
+        /// <summary>
+        /// The favorite item to display
+        /// </summary>
+        public Favorite Favorite { get; set; } = default!;
 
+        /// <summary>
+        /// On page get
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Links == null)
+            if (id == null || this.context.Links == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var favorite = await _context.Links.Include(p => p.Links).FirstOrDefaultAsync(m => m.Id == id);
+            var favorite = await this.context.Links.Include(p => p.Links).FirstOrDefaultAsync(m => m.Id == id);
 
             if (favorite == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            else 
+            else
             {
-                Favorite = favorite;
+                this.Favorite = favorite;
             }
-            return Page();
+
+            return this.Page();
         }
     }
 }
