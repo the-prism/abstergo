@@ -1,11 +1,15 @@
-﻿using System.Runtime.Serialization;
-using System.ComponentModel.DataAnnotations;
+﻿// <copyright file="Favorite.cs" company="the-prism">
+// Copyright (c) the-prism. All rights reserved.
+// </copyright>
 
 namespace Abstergo.Data
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.Runtime.Serialization;
+
     public class Favorite
     {
-        [DataMember] 
+        [DataMember]
         public int Id { get; set; }
 
         [Required]
@@ -18,9 +22,6 @@ namespace Abstergo.Data
 
         [DataMember]
         public bool IsFolder { get; set; }
-
-        [DataMember(IsRequired = false)]
-        public int? ParentId { get; set; } = null;
 
         public List<Link> Links { get; set; } = new List<Link>();
     }

@@ -68,16 +68,16 @@ namespace Abstergo.Pages.Link
 
         private Favorite PrepareFolderContents(Favorite item, StringValues contents)
         {
+            if (item is null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
+
             int idParent = item.Id;
 
             foreach (var itemContent in contents)
             {
                 item.Links.Add(new Links() { ParentId = idParent, ChildId = int.Parse(itemContent) });
-                //var favToAdd = Favorites.FirstOrDefault(f => f.Id == int.Parse(itemContent));
-                //if (favToAdd is not null)
-                //{
-                //    item.Links.Add(favToAdd);
-                //}
             }
 
             return item;

@@ -30,12 +30,7 @@ namespace Abstergo.Pages.Link
                 return NotFound();
             }
 
-            var favorite = await _context.Links.FirstOrDefaultAsync(m => m.Id == id);
-
-            if (favorite is not null)
-            {
-                favorite.Links = await _context.FavoriteLinks.Where((Links f) => f.FavoriteId == id).ToListAsync();
-            }
+            var favorite = await _context.Links.Include(p => p.Links).FirstOrDefaultAsync(m => m.Id == id);
 
             if (favorite == null)
             {

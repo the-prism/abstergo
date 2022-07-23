@@ -7,6 +7,6 @@
         public int ChildId { get; set; }
 
         public int FavoriteId { get; set; }
-        public Favorite Favorite { get; set; }
+        public Favorite? Favorite { get; set; }
     }
 }

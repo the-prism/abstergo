@@ -28,6 +28,10 @@ namespace Abstergo.Data
                 .HasOne(p => p.Favorite)
                 .WithMany(b => b.Links)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Favorite>()
+                .Navigation(b => b.Links)
+                .UsePropertyAccessMode(PropertyAccessMode.Property);
         }
     }
 }
