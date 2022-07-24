@@ -42,5 +42,10 @@ namespace Abstergo.Data
         /// </summary>
         [DataMember]
         public int ParentID { get; set; } = -1;
+
+        /// <summary>
+        /// Is the favorite pinned for home page
+        /// </summary>
+        public bool IsPinned { get; set; } = false;
     }
 }
