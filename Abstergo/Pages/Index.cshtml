@@ -9,11 +9,23 @@
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
+
 @if (Model.CurrentFolder != null)
 {
-    <p>
-        <a asp-page="/Index" asp-route-id="@Model.CurrentFolder.ParentID">Back</a>
-    </p>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-page="/Index" asp-route-id="@Model.CurrentFolder.ParentID">Back</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.CurrentFolder.Name</li>
+        </ol>
+    </nav>
+}
+else
+{
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Home</li>
+        </ol>
+    </nav>
 }
 
 <table class="table">
