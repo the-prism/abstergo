@@ -47,7 +47,7 @@ namespace Abstergo.Pages.Link
                 return this.NotFound();
             }
 
-            var favorite = await this.context.Links.Include(f => f.Links).FirstOrDefaultAsync(m => m.Id == id);
+            var favorite = await this.context.Links.FirstOrDefaultAsync(m => m.Id == id);
 
             if (favorite == null)
             {
@@ -73,7 +73,7 @@ namespace Abstergo.Pages.Link
                 return this.NotFound();
             }
 
-            var favorite = await this.context.Links.Include(f => f.Links).FirstOrDefaultAsync(m => m.Id == id);
+            var favorite = await this.context.Links.FirstOrDefaultAsync(m => m.Id == id);
 
             if (favorite != null)
             {

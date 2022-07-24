@@ -31,7 +31,14 @@
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
-                    <a href="@item.Url">@Html.DisplayFor(modelItem => item.Name)</a>
+                    @if (item.IsFolder)
+                    {
+                        <a asp-page="/Index" asp-route-id="@item.Id">@item.Name</a>
+                    }
+                    else
+                    {
+                        <a href="@item.Url">@Html.DisplayFor(modelItem => item.Name)</a>
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.IsFolder)
@@ -41,5 +48,5 @@
     </tbody>
 </table>
 
-<a class="btn btn-primary" asp-page="AddFavorite" role="button">Add favorite</a>
-<a class="btn btn-primary" asp-page="AddFolder" role="button">New folder</a>
+<a class="btn btn-primary" asp-page="AddFavorite" asp-route-id="@Model.FolderID" role="button">Add favorite</a>
+<a class="btn btn-primary" asp-page="AddFolder" asp-route-id="@Model.FolderID" role="button">New folder</a>

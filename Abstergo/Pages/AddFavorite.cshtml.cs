@@ -31,11 +31,19 @@ namespace Abstergo.Pages
         public Favorite Favorite { get; set; } = default!;
 
         /// <summary>
+        /// Add a favorite
+        /// </summary>
+        [BindProperty]
+        public int FolderID { get; set; } = -1;
+
+        /// <summary>
         /// GET request of the page
         /// </summary>
+        /// <param name="id"></param>
         /// <returns></returns>
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(int? id)
         {
+            this.FolderID = id ?? -1;
             await Task.Yield();
         }
 
@@ -52,10 +60,11 @@ namespace Abstergo.Pages
             }
 
             // Create the new one
+            this.Favorite.ParentID = this.FolderID;
             this.context.Links.Add(this.Favorite);
             await this.context.SaveChangesAsync();
 
-            return this.RedirectToPage("/Index");
+            return this.RedirectToPage("/Index", new { id = this.FolderID });
         }
     }
 }

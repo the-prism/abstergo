@@ -38,8 +38,9 @@ namespace Abstergo.Data
         public bool IsFolder { get; set; }
 
         /// <summary>
-        /// List of links for a folder
+        /// ID of the folder parent
         /// </summary>
-        public List<Link> Links { get; set; } = new List<Link>();
+        [DataMember]
+        public int ParentID { get; set; } = -1;
     }
 }
