@@ -9,6 +9,13 @@
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
+@if (Model.CurrentFolder != null)
+{
+    <p>
+        <a asp-page="/Index" asp-route-id="@Model.CurrentFolder.ParentID">Back</a>
+    </p>
+}
+
 <table class="table">
     <thead>
         <tr>

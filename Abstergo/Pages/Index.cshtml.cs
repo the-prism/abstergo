@@ -34,6 +34,14 @@ namespace Abstergo.Pages
         /// </summary>
         public IList<Favorite> Favorites { get; set; } = default!;
 
+        /// <summary>
+        /// Current folder if it exists
+        /// </summary>
+        public Favorite? CurrentFolder { get; set; } = null;
+
+        /// <summary>
+        /// Id of the current folder
+        /// </summary>
         public int FolderID { get; set; } = -1;
 
         /// <summary>
@@ -50,6 +58,7 @@ namespace Abstergo.Pages
             else if (this.context.Links != null)
             {
                 this.Favorites = await this.context.Links.Where(f => f.ParentID == id).ToListAsync();
+                this.CurrentFolder = await this.context.Links.FirstOrDefaultAsync(f => f.Id == id);
                 this.FolderID = id ?? -1;
             }
         }

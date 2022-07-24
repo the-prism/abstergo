@@ -31,7 +31,7 @@ namespace Abstergo.Pages
         public Favorite Favorite { get; set; } = default!;
 
         /// <summary>
-        /// Add a favorite
+        /// Parent folder ID
         /// </summary>
         [BindProperty]
         public int FolderID { get; set; } = -1;
