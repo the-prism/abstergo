@@ -37,13 +37,21 @@ namespace Abstergo.Pages
         public int FolderID { get; set; } = -1;
 
         /// <summary>
+        /// Last order item
+        /// </summary>
+        [BindProperty]
+        public int LastOrder { get; set; }
+
+        /// <summary>
         /// GET request of the page
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="order"></param>
         /// <returns></returns>
-        public async Task OnGetAsync(int? id)
+        public async Task OnGetAsync(int? id, int? order)
         {
             this.FolderID = id ?? -1;
+            this.LastOrder = order ?? 0;
             await Task.Yield();
         }
 
@@ -61,6 +69,7 @@ namespace Abstergo.Pages
 
             // Create the new one
             this.Favorite.ParentID = this.FolderID;
+            this.Favorite.Order = this.LastOrder + 1;
             this.context.Links.Add(this.Favorite);
             await this.context.SaveChangesAsync();
 

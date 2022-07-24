@@ -47,5 +47,10 @@ namespace Abstergo.Data
         /// Is the favorite pinned for home page
         /// </summary>
         public bool IsPinned { get; set; } = false;
+
+        /// <summary>
+        /// Sorting order inside a folder
+        /// </summary>
+        public int Order { get; set; }
     }
 }

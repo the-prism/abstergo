@@ -45,6 +45,11 @@ namespace Abstergo.Pages
         public int FolderID { get; set; } = -1;
 
         /// <summary>
+        /// Last order item
+        /// </summary>
+        public int LastOrder { get; set; }
+
+        /// <summary>
         /// Function of GET request
         /// </summary>
         /// <param name="id"></param>
@@ -61,6 +66,8 @@ namespace Abstergo.Pages
                 this.CurrentFolder = await this.context.Links.FirstOrDefaultAsync(f => f.Id == id);
                 this.FolderID = id ?? -1;
             }
+
+            this.LastOrder = this.Favorites.Last().Order;
         }
     }
 }

@@ -73,5 +73,5 @@ else
     </tbody>
 </table>
 
-<a class="btn btn-primary" asp-page="AddFavorite" asp-route-id="@Model.FolderID" role="button">Add favorite</a>
-<a class="btn btn-primary" asp-page="AddFolder" asp-route-id="@Model.FolderID" role="button">New folder</a>
+<a class="btn btn-primary" asp-page="AddFavorite" asp-route-id="@Model.FolderID" asp-route-order="@Model.LastOrder" role="button">Add favorite</a>
+<a class="btn btn-primary" asp-page="AddFolder" asp-route-id="@Model.FolderID" asp-route-order="@Model.LastOrder" role="button">New folder</a>
