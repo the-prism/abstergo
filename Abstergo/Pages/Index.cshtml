@@ -46,6 +46,9 @@ else
             <th>
                 @Html.DisplayNameFor(model => model.Favorites[0].IsFolder)
             </th>
+            <th>
+                Edit
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -67,6 +70,11 @@ else
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.IsFolder)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Order)
+                    <a asp-page="./Order" asp-route-id="@item.Id" asp-route-newOrder="@(item.Order - 1)">Move Up</a>
+                    <a asp-page="./Order" asp-route-id="@item.Id" asp-route-newOrder="@(item.Order + 1)">Move Down</a>
                 </td>
             </tr>
         }
