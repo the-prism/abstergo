@@ -67,6 +67,7 @@ namespace Abstergo.Pages
                 this.FolderID = id ?? -1;
             }
 
+            this.Favorites = this.Favorites.OrderBy(f => f.Order).ToList();
             this.LastOrder = this.Favorites.Last().Order;
         }
     }
