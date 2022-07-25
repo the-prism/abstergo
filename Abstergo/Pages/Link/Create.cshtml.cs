@@ -14,7 +14,6 @@ namespace Abstergo.Pages.Link
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Primitives;
-    using Links = Abstergo.Data.Link;
 
     /// <summary>
     /// Link creation view model page
@@ -86,38 +85,14 @@ namespace Abstergo.Pages.Link
             this.context.Links.Add(this.Favorite);
             await this.context.SaveChangesAsync();
 
-            // Get the list of child and add them to the newley created folder
-            var folderContent = this.Request.Form["Content"];
-            var newFav = this.PrepareFolderContents(this.Favorite, folderContent);
-            this.context.Attach(newFav).State = EntityState.Modified;
+            //// Get the list of child and add them to the newley created folder
+            //var folderContent = this.Request.Form["Content"];
+            //var newFav = this.PrepareFolderContents(this.Favorite, folderContent);
+            //this.context.Attach(newFav).State = EntityState.Modified;
 
-            await this.context.SaveChangesAsync();
+            //await this.context.SaveChangesAsync();
 
             return this.RedirectToPage("./Index");
-        }
-
-        /// <summary>
-        /// Prepare the links for a favorite item
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="contents"></param>
-        /// <returns>The updated favorite with links</returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        private Favorite PrepareFolderContents(Favorite item, StringValues contents)
-        {
-            if (item is null)
-            {
-                throw new ArgumentNullException(nameof(item));
-            }
-
-            int idParent = item.Id;
-
-            foreach (var itemContent in contents)
-            {
-                item.Links.Add(new Links() { ParentId = idParent, ChildId = int.Parse(itemContent) });
-            }
-
-            return item;
         }
     }
 }

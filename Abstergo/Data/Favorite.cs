@@ -35,11 +35,22 @@ namespace Abstergo.Data
         /// Boolean to indicate if it a link or a folder
         /// </summary>
         [DataMember]
-        public bool IsFolder { get; set; }
+        public bool IsFolder { get; set; } = false;
 
         /// <summary>
-        /// List of links for a folder
+        /// ID of the folder parent
         /// </summary>
-        public List<Link> Links { get; set; } = new List<Link>();
+        [DataMember]
+        public int ParentID { get; set; } = -1;
+
+        /// <summary>
+        /// Is the favorite pinned for home page
+        /// </summary>
+        public bool IsPinned { get; set; } = false;
+
+        /// <summary>
+        /// Sorting order inside a folder
+        /// </summary>
+        public int Order { get; set; }
     }
 }

@@ -17,3 +17,9 @@ dotnet_diagnostic.SA1627.severity = none
 
 # SA1616: Element return value documentation should have text
 dotnet_diagnostic.SA1616.severity = suggestion
+
+# SA1005: Single line comments should begin with single space
+dotnet_diagnostic.SA1005.severity = silent
+
+# SA1512: Single-line comments should not be followed by blank line
+dotnet_diagnostic.SA1512.severity = silent

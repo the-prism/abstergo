@@ -42,7 +42,7 @@ namespace Abstergo.Pages.Link
         {
             if (this.context.Links != null)
             {
-                this.Favorite = await this.context.Links.Include(p => p.Links).ToListAsync();
+                this.Favorite = await this.context.Links.ToListAsync();
             }
         }
     }

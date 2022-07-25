@@ -35,15 +35,40 @@ namespace Abstergo.Pages
         public IList<Favorite> Favorites { get; set; } = default!;
 
         /// <summary>
+        /// Current folder if it exists
+        /// </summary>
+        public Favorite? CurrentFolder { get; set; } = null;
+
+        /// <summary>
+        /// Id of the current folder
+        /// </summary>
+        public int FolderID { get; set; } = -1;
+
+        /// <summary>
+        /// Last order item
+        /// </summary>
+        public int LastOrder { get; set; }
+
+        /// <summary>
         /// Function of GET request
         /// </summary>
+        /// <param name="id"></param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(int? id)
         {
-            if (this.context.Links != null)
+            if (id == null && this.context.Links != null)
             {
-                this.Favorites = await this.context.Links.Include(p => p.Links).ToListAsync();
+                this.Favorites = await this.context.Links.Where(f => f.ParentID == -1).ToListAsync();
             }
+            else if (this.context.Links != null)
+            {
+                this.Favorites = await this.context.Links.Where(f => f.ParentID == id).ToListAsync();
+                this.CurrentFolder = await this.context.Links.FirstOrDefaultAsync(f => f.Id == id);
+                this.FolderID = id ?? -1;
+            }
+
+            this.Favorites = this.Favorites.OrderBy(f => f.Order).ToList();
+            this.LastOrder = this.Favorites.Last().Order;
         }
     }
 }

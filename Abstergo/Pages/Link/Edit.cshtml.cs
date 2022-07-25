@@ -13,7 +13,6 @@ namespace Abstergo.Pages.Link
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
-    using Links = Abstergo.Data.Link;
 
     /// <summary>
     /// View model of the edit page
@@ -49,7 +48,7 @@ namespace Abstergo.Pages.Link
                 return this.NotFound();
             }
 
-            var favorite = await this.context.Links.Include(p => p.Links).FirstOrDefaultAsync(m => m.Id == id);
+            var favorite = await this.context.Links.FirstOrDefaultAsync(m => m.Id == id);
 
             if (favorite == null)
             {
