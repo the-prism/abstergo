@@ -5,6 +5,7 @@
 namespace Abstergo
 {
     using Abstergo.Data;
+    using Abstergo.Services;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
@@ -31,6 +32,8 @@ namespace Abstergo
             // builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
             //    .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddRazorPages();
+
+            builder.Services.AddSingleton<SearchService>();
 
             var app = builder.Build();
 
