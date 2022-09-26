@@ -33,7 +33,7 @@ namespace Abstergo
             //    .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddRazorPages();
 
-            builder.Services.AddSingleton<SearchService>();
+            //builder.Services.AddSingleton<SearchService>();
 
             var app = builder.Build();
 
@@ -58,7 +58,11 @@ namespace Abstergo
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.MapRazorPages();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+                endpoints.MapControllerRoute(name: "default", pattern: "{controller}/{action}");
+            });
 
             app.Run();
         }

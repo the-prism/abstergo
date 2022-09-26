@@ -35,7 +35,7 @@ namespace Abstergo.Data
         /// Boolean to indicate if it a link or a folder
         /// </summary>
         [DataMember]
-        public bool IsFolder { get; set; } = false;
+        public ItemType ItemType { get; set; } = ItemType.Favorite;
 
         /// <summary>
         /// ID of the folder parent
