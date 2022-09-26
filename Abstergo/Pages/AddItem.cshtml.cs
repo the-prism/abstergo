@@ -8,9 +8,17 @@ namespace Abstergo.Pages
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
 
+    /// <summary>
+    /// Page to add new items
+    /// </summary>
     public class AddItemModel : PageModel
     {
         private readonly ApplicationDbContext context;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AddItemModel"/> class.
+        /// </summary>
+        /// <param name="context"></param>
         public AddItemModel(ApplicationDbContext context)
         {
             this.context = context;
@@ -40,6 +48,13 @@ namespace Abstergo.Pages
         [BindProperty]
         public ItemType ItemType { get; set; }
 
+        /// <summary>
+        /// Get function of the page
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="order"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public async Task OnGetAsync(int? id, int? order, ItemType? type)
         {
             this.FolderID = id ?? -1;
