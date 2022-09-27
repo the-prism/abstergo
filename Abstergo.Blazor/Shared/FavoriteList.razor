@@ -1,0 +1,109 @@
+﻿@using Abstergo.Blazor.Data
+@using Abstergo.Blazor.Services
+@inject FavoriteService Service
+
+<h3>FavoriteList</h3>
+
+@if (favorites == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @if (currentFolder != null)
+    {
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#" @onclick="() => OpenNewFolder(currentFolder.ParentID)">Back</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@currentFolder.Name</li>
+            </ol>
+        </nav>
+    }
+    else
+    {
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">Home</li>
+            </ol>
+        </nav>
+    }
+
+    <ul class="list-group">
+        @foreach (var item in favorites)
+        {
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        @if (item.ItemType is ItemType.Folder)
+                        {
+                            <a href="#" @onclick="() => OpenNewFolder(item.Id)" class="text-decoration-none">
+                                <i class="bi @item.Icon.GetStringValue()"></i>
+                                <span class="ms-2">@item.Name</span>
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@item.Url" class="text-decoration-none">
+                                <i class="bi @item.Icon.GetStringValue()"></i>
+                                <span class="ms-2">@item.Name</span>
+                            </a>
+                        }
+                    </div>
+                    <div class="col">
+                        @item.ItemType
+                    </div>
+                    <div class="col">
+                        @item.Order
+                    </div>
+                    <div class="col text-end">
+                        <EditItem ItemToEdit="item"></EditItem>
+                        <a href="#" @onclick="() => Service.OrderChangeAsync(item.Id, item.Order - 1)">
+                            <i class="bi bi-chevron-up"></i>
+                        </a>
+                        <a href="#" @onclick="() => Service.OrderChangeAsync(item.Id, item.Order + 1)">
+                            <i class="bi bi-chevron-down"></i>
+                        </a>
+                        <a href="#" @onclick="() => Service.DeleteItem(item)" class="ms-4">
+                            <i class="bi bi-trash3"></i>
+                            </a>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+
+    <div class="mt-4">
+        <AddItem ItemTypeToAdd="ItemType.Folder"></AddItem>
+        <AddItem ItemTypeToAdd="ItemType.Favorite"></AddItem>
+    </div>
+}
+
+@code {
+    private IList<Favorite>? favorites;
+
+    private Favorite? currentFolder;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Service.FolderListChanged += ListChanged;
+        favorites = await Service.GetListOfFavoritesAsync(-1);
+        currentFolder = Service.CurrentFolder;
+    }
+
+    protected async Task OpenNewFolder(int id)
+    {
+        favorites = await Service.GetListOfFavoritesAsync(id);
+        currentFolder = Service.CurrentFolder;
+    }
+
+    protected async void ListChanged()
+    {
+        favorites = await Service.GetListOfFavoritesAsync(currentFolder?.Id ?? -1);
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        Service.FolderListChanged -= ListChanged;
+    }
+}

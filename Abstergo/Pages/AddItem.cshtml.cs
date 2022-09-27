@@ -1,4 +1,4 @@
-// <copyright file="AddFolder.cshtml.cs" company="the-prism">
+// <copyright file="AddItem.cshtml.cs" company="the-prism">
 // Copyright (c) the-prism. All rights reserved.
 // </copyright>
 
@@ -9,29 +9,29 @@ namespace Abstergo.Pages
     using Microsoft.AspNetCore.Mvc.RazorPages;
 
     /// <summary>
-    /// Folder creation viewmodel
+    /// Page to add new items
     /// </summary>
-    public class AddFolderModel : PageModel
+    public class AddItemModel : PageModel
     {
         private readonly ApplicationDbContext context;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AddFolderModel"/> class.
+        /// Initializes a new instance of the <see cref="AddItemModel"/> class.
         /// </summary>
         /// <param name="context"></param>
-        public AddFolderModel(ApplicationDbContext context)
+        public AddItemModel(ApplicationDbContext context)
         {
             this.context = context;
         }
 
         /// <summary>
-        /// New folder to be created
+        /// New favortie to be created
         /// </summary>
         [BindProperty]
         public Favorite Favorite { get; set; } = default!;
 
         /// <summary>
-        /// Parent folder id
+        /// Parent folder ID
         /// </summary>
         [BindProperty]
         public int FolderID { get; set; } = -1;
@@ -43,15 +43,23 @@ namespace Abstergo.Pages
         public int LastOrder { get; set; }
 
         /// <summary>
-        /// For display on GET request
+        /// Last order item
+        /// </summary>
+        [BindProperty]
+        public ItemType ItemType { get; set; }
+
+        /// <summary>
+        /// Get function of the page
         /// </summary>
         /// <param name="id"></param>
         /// <param name="order"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
-        public async Task OnGetAsync(int? id, int? order)
+        public async Task OnGetAsync(int? id, int? order, ItemType? type)
         {
             this.FolderID = id ?? -1;
             this.LastOrder = order ?? 0;
+            this.ItemType = type ?? ItemType.Favorite;
             await Task.Yield();
         }
 
@@ -68,7 +76,6 @@ namespace Abstergo.Pages
             }
 
             // Create the new one
-            this.Favorite.IsFolder = true;
             this.Favorite.ParentID = this.FolderID;
             this.Favorite.Order = this.LastOrder + 1;
             this.context.Links.Add(this.Favorite);

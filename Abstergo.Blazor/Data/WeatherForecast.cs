@@ -1,0 +1,17 @@
+// <copyright file="WeatherForecast.cs" company="the-prism">
+// Copyright (c) the-prism. All rights reserved.
+// </copyright>
+
+namespace Abstergo.Blazor.Data
+{
+    public class WeatherForecast
+    {
+        public DateTime Date { get; set; }
+
+        public int TemperatureC { get; set; }
+
+        public int TemperatureF => 32 + (int)(this.TemperatureC / 0.5556);
+
+        public string? Summary { get; set; }
+    }
+}

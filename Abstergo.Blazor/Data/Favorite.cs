@@ -2,7 +2,7 @@
 // Copyright (c) the-prism. All rights reserved.
 // </copyright>
 
-namespace Abstergo.Data
+namespace Abstergo.Blazor.Data
 {
     using System.ComponentModel.DataAnnotations;
     using System.Runtime.Serialization;
@@ -52,5 +52,15 @@ namespace Abstergo.Data
         /// Sorting order inside a folder
         /// </summary>
         public int Order { get; set; }
+
+        /// <summary>
+        /// The icon to be displayed with the item
+        /// </summary>
+        public ItemIcon Icon { get; set; }
+
+        /// <summary>
+        /// Color of the item to display
+        /// </summary>
+        public ItemColor Color { get; set; }
     }
 }

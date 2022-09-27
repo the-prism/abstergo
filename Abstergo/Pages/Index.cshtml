@@ -44,7 +44,7 @@ else
                 @Html.DisplayNameFor(model => model.Favorites[0].Url)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Favorites[0].IsFolder)
+                @Html.DisplayNameFor(model => model.Favorites[0].ItemType)
             </th>
             <th>
                 Order
@@ -62,7 +62,7 @@ else
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
-                    @if (item.IsFolder)
+                    @if (item.ItemType is ItemType.Folder)
                     {
                         <a asp-page="/Index" asp-route-id="@item.Id">@item.Name</a>
                     }
@@ -72,19 +72,21 @@ else
                     }
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IsFolder)
+                    @Html.DisplayFor(modelItem => item.ItemType)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Order)
                 </td>
                 <td>
-                    <a asp-page="./Order" asp-route-id="@item.Id" asp-route-newOrder="@(item.Order - 1)">Move Up</a>
-                    <a asp-page="./Order" asp-route-id="@item.Id" asp-route-newOrder="@(item.Order + 1)">Move Down</a>
+                    <a asp-controller="Order" asp-action="OrderChange" asp-route-id="@item.Id" asp-route-newOrder="@(item.Order - 1)">Move Up</a>
+                    <a asp-controller="Order" asp-action="OrderChange" asp-route-id="@item.Id" asp-route-newOrder="@(item.Order + 1)">Move Down</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-<a class="btn btn-primary" asp-page="AddFavorite" asp-route-id="@Model.FolderID" asp-route-order="@Model.LastOrder" role="button">Add favorite</a>
-<a class="btn btn-primary" asp-page="AddFolder" asp-route-id="@Model.FolderID" asp-route-order="@Model.LastOrder" role="button">New folder</a>
+<a class="btn btn-primary" asp-page="AddItem" asp-route-id="@Model.FolderID" asp-route-order="@Model.LastOrder" asp-route-type="Favorite" role="button">Add favorite</a>
+<a class="btn btn-primary" asp-page="AddItem" asp-route-id="@Model.FolderID" asp-route-order="@Model.LastOrder" asp-route-type="Folder" role="button">New folder</a>
+
+<Abstergo.Pages.Shared.ModalPop/>

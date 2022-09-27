@@ -1,0 +1,76 @@
+﻿@using Abstergo.Blazor.Data
+@using Abstergo.Blazor.Services
+@inject FavoriteService Service
+
+<a href="#" data-bs-toggle="modal" data-bs-target="#@ModalId">
+    <i class="bi @ItemIcon.Edit.GetStringValue()"></i>
+</a>
+
+<!-- Modal -->
+<div class="modal fade text-start" id="@ModalId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="iconSelection" class="form-label">Icon</label>
+                            <select class="form-select form-select-lg icon-select" aria-label="Default select example" @bind="ItemToEdit.Icon" id="iconSelection">
+                                @if (availableIcons is not null)
+                                    @foreach (var item in availableIcons)
+                                    {
+                                        <option value="@item">@item.GetIconCharset()</option>
+                                    }
+                            </select>
+                        </div>
+                        <div class="col-md-9">
+                            <label for="floatingName" class="form-label">Name</label>
+                            <input type="text" @bind="ItemToEdit.Name" class="form-control form-control-lg" id="floatingName" placeholder="Favorite name">
+                        </div>
+                    </div>
+
+                    @if (ItemToEdit.ItemType == ItemType.Favorite)
+                    {
+                        <div class="row mt-3">
+                            <div class="col">
+                                <label for="floatingUrl" class="form-label">Url</label>
+                                <input type="text" @bind="ItemToEdit.Url" class="form-control form-control-lg" id="floatingUrl" placeholder="https://">
+                            </div>
+                        </div>
+                    }
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @onclick="() => SaveChanges()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private ItemIcon[]? availableIcons = Enum.GetValues(typeof(ItemIcon)) as ItemIcon[];
+
+    [Parameter]
+    public Favorite ItemToEdit { get; set; } = default!;
+
+    private string ModalId
+    {
+        get
+        {
+            return "ModalEdit" + ItemToEdit?.Id;
+        }
+    }
+
+    protected async Task SaveChanges()
+    {
+        if (ItemToEdit is not null)
+        {
+            await Service.UpdateItem(ItemToEdit);
+        }
+    }
+}

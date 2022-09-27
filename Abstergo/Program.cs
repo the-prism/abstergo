@@ -5,6 +5,7 @@
 namespace Abstergo
 {
     using Abstergo.Data;
+    using Abstergo.Services;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
@@ -32,6 +33,8 @@ namespace Abstergo
             //    .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddRazorPages();
 
+            //builder.Services.AddSingleton<SearchService>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -55,7 +58,11 @@ namespace Abstergo
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.MapRazorPages();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+                endpoints.MapControllerRoute(name: "default", pattern: "{controller}/{action}");
+            });
 
             app.Run();
         }

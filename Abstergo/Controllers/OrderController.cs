@@ -1,44 +1,47 @@
-// <copyright file="Order.cshtml.cs" company="the-prism">
+﻿// <copyright file="OrderController.cs" company="the-prism">
 // Copyright (c) the-prism. All rights reserved.
 // </copyright>
 
-namespace Abstergo.Pages
+namespace Abstergo.Controllers
 {
     using Abstergo.Data;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>
-    /// Order control view model
+    /// Controller for ordering actions
     /// </summary>
-    public class OrderModel : PageModel
+    public class OrderController : Controller
     {
+        /// <summary>
+        /// Application database
+        /// </summary>
         private readonly ApplicationDbContext context;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OrderModel"/> class.
+        /// Initializes a new instance of the <see cref="OrderController"/> class.
         /// </summary>
         /// <param name="context"></param>
-        public OrderModel(ApplicationDbContext context)
+        public OrderController(ApplicationDbContext context)
         {
             this.context = context;
         }
 
         /// <summary>
-        /// GET request to change the order of elements
+        /// Action to change the order of the requested element
         /// </summary>
         /// <param name="id"></param>
         /// <param name="newOrder"></param>
         /// <returns></returns>
-        public async Task<IActionResult> OnGetAsync(int? id, int? newOrder)
+        /// <exception cref="ArgumentException"></exception>
+        public async Task<IActionResult> OrderChangeAsync(int? id, int? newOrder)
         {
             Favorite itemToMove = await this.context.Links.FirstOrDefaultAsync((Favorite fav) => fav.Id == id) ?? throw new ArgumentException(nameof(id));
 
             // Don't move to order before 0
             if (newOrder < 0)
             {
-                return this.RedirectToPage("./Index", new { id = itemToMove.ParentID });
+                return this.RedirectToPage("/Index", new { id = itemToMove.ParentID });
             }
 
             List<Favorite> listOfFavoritesInFolder = await this.context.Links.Where(f => f.ParentID == itemToMove.ParentID).ToListAsync();
@@ -46,7 +49,7 @@ namespace Abstergo.Pages
             // Dont move to order larger than count of items in folder
             if (newOrder >= listOfFavoritesInFolder.Count)
             {
-                return this.RedirectToPage("./Index", new { id = itemToMove.ParentID });
+                return this.RedirectToPage("/Index", new { id = itemToMove.ParentID });
             }
 
             Favorite? conflict = listOfFavoritesInFolder.FirstOrDefault(f => f.Order == newOrder);
@@ -77,7 +80,7 @@ namespace Abstergo.Pages
                 }
             }
 
-            return this.RedirectToPage("./Index", new { id = itemToMove.ParentID });
+            return this.RedirectToPage("/Index", new { id = itemToMove.ParentID });
         }
 
         private bool FavoriteExists(int id)

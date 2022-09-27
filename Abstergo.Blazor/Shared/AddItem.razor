@@ -1,0 +1,85 @@
+﻿@using Abstergo.Blazor.Data
+@using Abstergo.Blazor.Services
+@inject FavoriteService Service
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#@ModalId">
+    @if (ItemTypeToAdd == ItemType.Folder)
+    {
+        <i class="bi @ItemIcon.Folder.GetStringValue()"></i>
+    }
+    else if (ItemTypeToAdd == ItemType.Favorite)
+    {
+        <i class="bi @ItemIcon.BookmarkPlus.GetStringValue()"></i>
+    }
+    <span class="ms-2">Add new @ItemTypeToAdd</span>
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="@ModalId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add new @ItemTypeToAdd</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="iconSelection" class="form-label">Icon</label>
+                            <select class="form-select form-select-lg icon-select" aria-label="Default select example" @bind="NewItem.Icon" id="iconSelection">
+                                @if (availableIcons is not null)
+                                    @foreach (var item in availableIcons)
+                                    {
+                                        <option value="@item">@item.GetIconCharset()</option>
+                                    }
+                            </select>
+                        </div>
+                        <div class="col-md-9">
+                            <label for="floatingName" class="form-label">Name</label>
+                            <input type="text" @bind="NewItem.Name" class="form-control form-control-lg" id="floatingName" placeholder="Favorite name">
+                        </div>
+                    </div>
+
+                    @if (ItemTypeToAdd == ItemType.Favorite)
+                    {
+                        <div class="row mt-3">
+                            <div class="col">
+                                <label for="floatingUrl" class="form-label">Url</label>
+                                <input type="text" @bind="NewItem.Url" class="form-control form-control-lg" id="floatingUrl" placeholder="https://">
+                            </div>
+                        </div>
+                    }
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" @onclick="() => CreateNewItem()" data-bs-dismiss="modal">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private ItemIcon[]? availableIcons = Enum.GetValues(typeof(ItemIcon)) as ItemIcon[];
+    [Parameter]
+    public ItemType ItemTypeToAdd { get; set; }
+
+    public Favorite NewItem { get; set; } = new Favorite();
+
+    private string ModalId
+    {
+        get
+        {
+            return "Modal" + ItemTypeToAdd;
+        }
+    }
+
+    protected async Task CreateNewItem()
+    {
+        NewItem.ItemType = ItemTypeToAdd;
+        await Service.AddNewItem(NewItem);
+        NewItem = new Favorite();
+    }
+}

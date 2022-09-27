@@ -1,0 +1,14 @@
+﻿<div class="card w-25" style="margin-bottom:15px">
+    <div class="card-header font-weight-bold">@Title</div>
+    <div class="card-body">
+        @Body
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Title { get; set; } = "Set By Child";
+
+    [Parameter]
+    public string Body { get; set; } = "Set by child.";
+}
