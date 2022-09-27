@@ -27,6 +27,8 @@ namespace Abstergo.Blazor.Services
             this.context = context;
         }
 
+        public event Action? FolderListChanged;
+
         /// <summary>
         /// Current folder if it exists
         /// </summary>
@@ -94,6 +96,8 @@ namespace Abstergo.Blazor.Services
             try
             {
                 await this.context.SaveChangesAsync();
+
+                this.FolderListChanged?.Invoke();
             }
             catch (DbUpdateConcurrencyException)
             {

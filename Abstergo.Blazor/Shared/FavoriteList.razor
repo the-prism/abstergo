@@ -28,15 +28,24 @@ else
         </nav>
     }
 
-    <div class="list-group">
-    @foreach (var item in favorites)
-    {
-        @if (item.ItemType is ItemType.Folder)
+    <ul class="list-group">
+        @foreach (var item in favorites)
         {
-            <a href="#" class="list-group-item list-group-item-action" @onclick="() => OpenNewFolder(item.Id)">
+            <li class="list-group-item">
                 <div class="row">
                     <div class="col">
-                        @item.Name
+                    @if (item.ItemType is ItemType.Folder)
+                    {
+                        <a href="#" @onclick="() => OpenNewFolder(item.Id)">
+                            @item.Name
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@item.Url">
+                            @item.Name
+                        </a>
+                    }
                     </div>
                     <div class="col">
                         @item.ItemType
@@ -49,30 +58,9 @@ else
                         <a href="#" @onclick="() => ChangeOrder(item.Id, item.Order + 1)">Move Down</a>
                     </div>
                 </div>
-            </a>
+            </li>
         }
-        else
-        {
-            <a href="@item.Url" class="list-group-item list-group-item-action" aria-current="true">
-                <div class="row">
-                    <div class="col">
-                        @item.Name
-                    </div>
-                    <div class="col">
-                        @item.ItemType
-                    </div>
-                    <div class="col">
-                        @item.Order
-                    </div>
-                    <div class="col">
-                        <a href="#" @onclick="() => ChangeOrder(item.Id, item.Order - 1)">Move Up</a>
-                        <a href="#" @onclick="() => ChangeOrder(item.Id, item.Order + 1)">Move Down</a>
-                    </div>
-                </div>
-            </a>
-        }
-    }
-    </div>
+    </ul>
 }
 
 @code {
@@ -82,6 +70,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        Service.FolderListChanged += ListChanged;
         favorites = await Service.GetListOfFavoritesAsync(-1);
         currentFolder = Service.CurrentFolder;
     }
@@ -95,6 +84,15 @@ else
     protected async Task ChangeOrder(int id, int newOrder)
     {
         await Service.OrderChangeAsync(id, newOrder);
+    }
+
+    protected async void ListChanged()
+    {
         favorites = await Service.GetListOfFavoritesAsync(currentFolder?.Id ?? -1);
+    }
+
+    public void Dispose()
+    {
+        Service.FolderListChanged -= ListChanged;
     }
 }
