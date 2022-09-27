@@ -62,8 +62,8 @@ else
         }
     </ul>
 
-    <AddItem CurrentFolder="currentFolder" ItemTypeToAdd="ItemType.Folder"></AddItem>
-    <AddItem CurrentFolder="currentFolder" ItemTypeToAdd="ItemType.Favorite"></AddItem>
+    <AddItem ItemTypeToAdd="ItemType.Folder"></AddItem>
+    <AddItem ItemTypeToAdd="ItemType.Favorite"></AddItem>
 }
 
 @code {
@@ -92,6 +92,7 @@ else
     protected async void ListChanged()
     {
         favorites = await Service.GetListOfFavoritesAsync(currentFolder?.Id ?? -1);
+        StateHasChanged();
     }
 
     public void Dispose()

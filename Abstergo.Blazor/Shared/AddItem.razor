@@ -16,20 +16,29 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                ...
+                <form>
+                    <div class="form-floating">
+                        <input type="text" @bind="NewItem.Name" class="form-control" id="floatingName" placeholder="name">
+                        <label for="floatingName">Name</label>
+                    </div>
+                    @if (ItemTypeToAdd == ItemType.Favorite)
+                    {
+                        <div class="form-floating mt-3">
+                            <input type="text" @bind="NewItem.Url" class="form-control" id="floatingUrl" placeholder="https://">
+                            <label for="floatingUrl">Url</label>
+                        </div>
+                    }
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" @onclick="() => CreateNewItem()">Save changes</button>
+                <button type="button" class="btn btn-primary" @onclick="() => CreateNewItem()" data-bs-dismiss="modal">Save changes</button>
             </div>
         </div>
     </div>
 </div>
 
 @code {
-    [Parameter]
-    public Favorite? CurrentFolder { get; set; }
-
     [Parameter]
     public ItemType ItemTypeToAdd { get; set; }
 
@@ -45,6 +54,8 @@
 
     protected async Task CreateNewItem()
     {
-
+        NewItem.ItemType = ItemTypeToAdd;
+        await Service.AddNewItem(NewItem);
+        NewItem = new Favorite();
     }
 }
