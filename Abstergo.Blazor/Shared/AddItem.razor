@@ -1,5 +1,11 @@
-﻿<h3>AddItem</h3>
+﻿@using Abstergo.Blazor.Data
+@using Abstergo.Blazor.Services
+@inject FavoriteService Service
+
+<h3>AddItem</h3>
+
 
 @code {
-
+    [Parameter]
+    public Favorite? CurrentFolder { get; set; }
 }
