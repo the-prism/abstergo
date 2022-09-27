@@ -2,10 +2,49 @@
 @using Abstergo.Blazor.Services
 @inject FavoriteService Service
 
-<h3>AddItem</h3>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#@ModalId">
+    Add new @ItemTypeToAdd
+</button>
 
+<!-- Modal -->
+<div class="modal fade" id="@ModalId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add new @ItemTypeToAdd</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" @onclick="() => CreateNewItem()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @code {
     [Parameter]
     public Favorite? CurrentFolder { get; set; }
+
+    [Parameter]
+    public ItemType ItemTypeToAdd { get; set; }
+
+    public Favorite NewItem { get; set; } = new Favorite();
+
+    private string ModalId
+    {
+        get
+        {
+            return "Modal" + ItemTypeToAdd;
+        }
+    }
+
+    protected async Task CreateNewItem()
+    {
+
+    }
 }

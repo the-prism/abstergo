@@ -112,6 +112,16 @@ namespace Abstergo.Blazor.Services
             }
         }
 
+        public async Task AddNewItem(Favorite item)
+        {
+            item.ParentID = this.FolderID;
+            item.Order = this.LastOrder + 1;
+            this.context.Links.Add(item);
+            await this.context.SaveChangesAsync();
+
+            this.FolderListChanged?.Invoke();
+        }
+
         private bool FavoriteExists(int id)
         {
             return (this.context.Links?.Any(e => e.Id == id)).GetValueOrDefault();
