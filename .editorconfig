@@ -23,3 +23,6 @@ dotnet_diagnostic.SA1005.severity = silent
 
 # SA1512: Single-line comments should not be followed by blank line
 dotnet_diagnostic.SA1512.severity = silent
+
+# SA1600: Elements should be documented
+dotnet_diagnostic.SA1600.severity = suggestion

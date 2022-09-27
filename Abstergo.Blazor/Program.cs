@@ -3,6 +3,7 @@
 // </copyright>
 
 using Abstergo.Blazor.Data;
+using Abstergo.Blazor.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,7 @@ internal class Program
         builder.Services.AddRazorPages();
         builder.Services.AddServerSideBlazor();
         builder.Services.AddSingleton<WeatherForecastService>();
+        builder.Services.AddScoped<FavoriteService>();
 
         var app = builder.Build();
 
