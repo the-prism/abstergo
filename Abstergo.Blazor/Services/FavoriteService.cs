@@ -138,6 +138,29 @@ namespace Abstergo.Blazor.Services
             this.FolderListChanged?.Invoke();
         }
 
+        public async Task UpdateItem(Favorite item)
+        {
+            this.context.Attach(item).State = EntityState.Modified;
+
+            try
+            {
+                await this.context.SaveChangesAsync();
+
+                this.FolderListChanged?.Invoke();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!this.FavoriteExists(item.Id))
+                {
+                    return;
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+
         private bool FavoriteExists(int id)
         {
             return (this.context.Links?.Any(e => e.Id == id)).GetValueOrDefault();
