@@ -56,7 +56,7 @@
     private ItemIcon[]? availableIcons = Enum.GetValues(typeof(ItemIcon)) as ItemIcon[];
 
     [Parameter]
-    public Favorite? ItemToEdit { get; set; }
+    public Favorite ItemToEdit { get; set; } = default!;
 
     private string ModalId
     {
