@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Home page";
 }
+@using Pages.Shared
 
 @if (Model.FolderID == -1)
 {
@@ -88,3 +89,5 @@ else
 
 <a class="btn btn-primary" asp-page="AddItem" asp-route-id="@Model.FolderID" asp-route-order="@Model.LastOrder" asp-route-type="Favorite" role="button">Add favorite</a>
 <a class="btn btn-primary" asp-page="AddItem" asp-route-id="@Model.FolderID" asp-route-order="@Model.LastOrder" asp-route-type="Folder" role="button">New folder</a>
+
+<Abstergo.Pages.Shared.ModalPop/>
