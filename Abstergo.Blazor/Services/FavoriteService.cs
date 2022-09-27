@@ -59,7 +59,15 @@ namespace Abstergo.Blazor.Services
             }
 
             favorites = favorites.OrderBy(f => f.Order).ToList();
-            this.LastOrder = favorites.Last().Order;
+            if (favorites.Any())
+            {
+                this.LastOrder = favorites.Last().Order;
+            }
+            else
+            {
+                this.LastOrder = -1;
+            }
+
             return favorites;
         }
 

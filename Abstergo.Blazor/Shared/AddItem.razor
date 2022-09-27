@@ -4,13 +4,13 @@
 
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#@ModalId">
-    @if(ItemTypeToAdd == ItemType.Folder)
+    @if (ItemTypeToAdd == ItemType.Folder)
     {
-        <i class="bi bi-folder"></i>
+        <i class="bi @ItemIcon.Folder.GetStringValue()"></i>
     }
     else if (ItemTypeToAdd == ItemType.Favorite)
     {
-        <i class="bi bi-link-45deg"></i>
+        <i class="bi @ItemIcon.Link.GetStringValue()"></i>
     }
     <span class="ms-2">Add new @ItemTypeToAdd</span>
 </button>
@@ -35,6 +35,13 @@
                             <input type="text" @bind="NewItem.Url" class="form-control" id="floatingUrl" placeholder="https://">
                             <label for="floatingUrl">Url</label>
                         </div>
+                        <select class="form-select form-select-lg icon-select mt-3" aria-label="Default select example" @bind="NewItem.Icon">
+                            @if (availableIcons is not null)
+                                @foreach (var item in availableIcons)
+                                {
+                                    <option value="@item">@item.GetIconCharset()</option>
+                                }
+                        </select>
                     }
                 </form>
             </div>
@@ -47,6 +54,7 @@
 </div>
 
 @code {
+    private ItemIcon[]? availableIcons = Enum.GetValues(typeof(ItemIcon)) as ItemIcon[];
     [Parameter]
     public ItemType ItemTypeToAdd { get; set; }
 

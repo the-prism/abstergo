@@ -52,5 +52,15 @@ namespace Abstergo.Blazor.Data
         /// Sorting order inside a folder
         /// </summary>
         public int Order { get; set; }
+
+        /// <summary>
+        /// The icon to be displayed with the item
+        /// </summary>
+        public ItemIcon Icon { get; set; }
+
+        /// <summary>
+        /// Color of the item to display
+        /// </summary>
+        public ItemColor Color { get; set; }
     }
 }

@@ -37,14 +37,14 @@ else
                         @if (item.ItemType is ItemType.Folder)
                         {
                             <a href="#" @onclick="() => OpenNewFolder(item.Id)" class="text-decoration-none">
-                                <i class="bi bi-folder"></i>
+                                <i class="bi @item.Icon.GetStringValue()"></i>
                                 <span class="ms-2">@item.Name</span>
                             </a>
                         }
                         else
                         {
                             <a href="@item.Url" class="text-decoration-none">
-                                <i class="bi bi-share"></i>
+                                <i class="bi @item.Icon.GetStringValue()"></i>
                                 <span class="ms-2">@item.Name</span>
                             </a>
                         }

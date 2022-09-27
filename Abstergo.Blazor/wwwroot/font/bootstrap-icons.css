@@ -5,6 +5,10 @@
 url("./fonts/bootstrap-icons.woff") format("woff");
 }
 
+.icon-select {
+    font-family: bootstrap-icons;
+}
+
 .bi::before,
 [class^="bi-"]::before,
 [class*=" bi-"]::before {
