@@ -122,6 +122,14 @@ namespace Abstergo.Blazor.Services
             this.FolderListChanged?.Invoke();
         }
 
+        public async Task DeleteItem(Favorite item)
+        {
+            this.context.Links.Remove(item);
+            await this.context.SaveChangesAsync();
+
+            this.FolderListChanged?.Invoke();
+        }
+
         private bool FavoriteExists(int id)
         {
             return (this.context.Links?.Any(e => e.Id == id)).GetValueOrDefault();

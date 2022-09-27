@@ -34,18 +34,20 @@ else
             <li class="list-group-item">
                 <div class="row">
                     <div class="col">
-                    @if (item.ItemType is ItemType.Folder)
-                    {
-                        <a href="#" @onclick="() => OpenNewFolder(item.Id)">
-                            @item.Name
-                        </a>
-                    }
-                    else
-                    {
-                        <a href="@item.Url">
-                            @item.Name
-                        </a>
-                    }
+                        @if (item.ItemType is ItemType.Folder)
+                        {
+                            <a href="#" @onclick="() => OpenNewFolder(item.Id)" class="text-decoration-none">
+                                <i class="bi bi-folder"></i>
+                                <span class="ms-2">@item.Name</span>
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@item.Url" class="text-decoration-none">
+                                <i class="bi bi-share"></i>
+                                <span class="ms-2">@item.Name</span>
+                            </a>
+                        }
                     </div>
                     <div class="col">
                         @item.ItemType
@@ -53,17 +55,26 @@ else
                     <div class="col">
                         @item.Order
                     </div>
-                    <div class="col">
-                        <a href="#" @onclick="() => ChangeOrder(item.Id, item.Order - 1)">Move Up</a>
-                        <a href="#" @onclick="() => ChangeOrder(item.Id, item.Order + 1)">Move Down</a>
+                    <div class="col text-end">
+                        <a href="#" @onclick="() => Service.OrderChangeAsync(item.Id, item.Order - 1)">
+                            <i class="bi bi-chevron-up"></i>
+                        </a>
+                        <a href="#" @onclick="() => Service.OrderChangeAsync(item.Id, item.Order + 1)">
+                            <i class="bi bi-chevron-down"></i>
+                        </a>
+                        <a href="#" @onclick="() => Service.DeleteItem(item)" class="ms-4">
+                            <i class="bi bi-trash3"></i>
+                            </a>
                     </div>
                 </div>
             </li>
         }
     </ul>
 
-    <AddItem ItemTypeToAdd="ItemType.Folder"></AddItem>
-    <AddItem ItemTypeToAdd="ItemType.Favorite"></AddItem>
+    <div class="mt-4">
+        <AddItem ItemTypeToAdd="ItemType.Folder"></AddItem>
+        <AddItem ItemTypeToAdd="ItemType.Favorite"></AddItem>
+    </div>
 }
 
 @code {
@@ -82,11 +93,6 @@ else
     {
         favorites = await Service.GetListOfFavoritesAsync(id);
         currentFolder = Service.CurrentFolder;
-    }
-
-    protected async Task ChangeOrder(int id, int newOrder)
-    {
-        await Service.OrderChangeAsync(id, newOrder);
     }
 
     protected async void ListChanged()

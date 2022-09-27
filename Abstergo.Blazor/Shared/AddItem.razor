@@ -4,7 +4,15 @@
 
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#@ModalId">
-    Add new @ItemTypeToAdd
+    @if(ItemTypeToAdd == ItemType.Folder)
+    {
+        <i class="bi bi-folder"></i>
+    }
+    else if (ItemTypeToAdd == ItemType.Favorite)
+    {
+        <i class="bi bi-link-45deg"></i>
+    }
+    <span class="ms-2">Add new @ItemTypeToAdd</span>
 </button>
 
 <!-- Modal -->
