@@ -1,8 +1,4 @@
-﻿// <copyright file="Favorite.cs" company="the-prism">
-// Copyright (c) the-prism. All rights reserved.
-// </copyright>
-
-namespace Abstergo.Blazor.Data
+﻿namespace Abstergo.Blazor.Data
 {
     using System.ComponentModel.DataAnnotations;
     using System.Runtime.Serialization;

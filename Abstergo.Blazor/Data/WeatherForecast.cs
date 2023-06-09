@@ -1,7 +1,3 @@
-// <copyright file="WeatherForecast.cs" company="the-prism">
-// Copyright (c) the-prism. All rights reserved.
-// </copyright>
-
 namespace Abstergo.Blazor.Data
 {
     public class WeatherForecast

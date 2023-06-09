@@ -1,7 +1,3 @@
-// <copyright file="Program.cs" company="the-prism">
-// Copyright (c) the-prism. All rights reserved.
-// </copyright>
-
 using Abstergo.Blazor.Data;
 using Abstergo.Blazor.Services;
 using Microsoft.AspNetCore.Components;
