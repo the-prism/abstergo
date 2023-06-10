@@ -1,9 +1,17 @@
 ﻿@page "/"
+@using Abstergo.Shared.Favorite
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Abstergo</h1>
 
-Welcome to your new app.
+<p>Home of the many links, favorite management page of sorts made by the-prism.</p>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<AuthorizeView>
+    <Authorized>
+        <FavoriteList></FavoriteList>
+    </Authorized>
+    <NotAuthorized>
+        <p>Login to view list</p>
+    </NotAuthorized>
+</AuthorizeView>

@@ -62,3 +62,139 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+/* Identity nav */
+.navbar-toggler-side {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.top-row-side {
+    height: 3.5rem;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.navbar-brand-side {
+    font-size: 1.1rem;
+}
+
+.oi-side {
+    width: 2rem;
+    font-size: 1.1rem;
+    vertical-align: text-top;
+    top: -2px;
+}
+
+.nav-item-side {
+    font-size: 0.9rem;
+    padding-bottom: 0.5rem;
+}
+
+    .nav-item-side:first-of-type {
+        padding-top: 1rem;
+    }
+
+    .nav-item-side:last-of-type {
+        padding-bottom: 1rem;
+    }
+
+    .nav-item-side a {
+        color: #d7d7d7;
+        border-radius: 4px;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        line-height: 3rem;
+    }
+
+        .nav-item-side a.active {
+            background-color: rgba(255,255,255,0.25);
+            color: white;
+        }
+
+        .nav-item-side a:hover {
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+@media (min-width: 641px) {
+    .navbar-toggler-side {
+        display: none;
+    }
+
+    .collapse {
+        /* Never collapse the sidebar for wide screens */
+        display: block;
+    }
+}
+
+/* Identity page */
+.page-id {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+.sidebar-id {
+    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+}
+
+.top-row-id {
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #d6d5d5;
+    justify-content: flex-end;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+}
+
+    .top-row-id a, .top-row-id .btn-link {
+        white-space: nowrap;
+        margin-left: 1.5rem;
+    }
+
+    .top-row-id a:first-child {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+@media (max-width: 640.98px) {
+    .top-row-id:not(.auth) {
+        display: none;
+    }
+
+    .top-row-id.auth {
+        justify-content: space-between;
+    }
+
+    .top-row-id a, .top-row-id .btn-link {
+        margin-left: 0;
+    }
+}
+
+@media (min-width: 641px) {
+    .page-id {
+        flex-direction: row;
+    }
+
+    .sidebar-id {
+        width: 250px;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+    }
+
+    .top-row-id {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+
+    .top-row-id, article {
+        padding-left: 2rem !important;
+        padding-right: 1.5rem !important;
+    }
+}
