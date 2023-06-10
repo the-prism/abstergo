@@ -1,8 +1,4 @@
-﻿// <copyright file="Extensions.cs" company="the-prism">
-// Copyright (c) the-prism. All rights reserved.
-// </copyright>
-
-namespace Abstergo.Blazor
+﻿namespace Abstergo.Blazor
 {
     using System.Reflection;
     using Microsoft.AspNetCore.Razor.Language;

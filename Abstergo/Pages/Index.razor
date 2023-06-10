@@ -1,0 +1,17 @@
+﻿@page "/"
+@using Abstergo.Shared.Favorite
+
+<PageTitle>Index</PageTitle>
+
+<h1>Abstergo</h1>
+
+<p>Home of the many links, favorite management page of sorts made by the-prism.</p>
+
+<AuthorizeView>
+    <Authorized>
+        <FavoriteList></FavoriteList>
+    </Authorized>
+    <NotAuthorized>
+        <p>Login to view list</p>
+    </NotAuthorized>
+</AuthorizeView>
